@@ -1,0 +1,1641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #F7F5F2;
+      --surface: #FFFFFF;
+      --surface-2: #F0EDE9;
+      --border: #E8E4DF;
+      --text-primary: #1A1714;
+      --text-secondary: #6B6560;
+      --text-tertiary: #A09B96;
+      --accent: #C17F3B;
+      --accent-soft: #FDF3E7;
+      --green: #3D7A5E;
+      --green-soft: #EAF4EF;
+      --red: #B94040;
+      --red-soft: #FDEAEA;
+      --blue: #3A5FA8;
+      --blue-soft: #EBF0FB;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 0 0 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: 28px 20px 0;
+      max-width: 720px;
+      margin: 0 auto 28px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .greeting {
+      font-size: 1.6rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .greeting span {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      letter-spacing: 0;
+    }
+
+    .live-time {
+      font-size: 1.4rem;
+      font-weight: 300;
+      color: var(--text-secondary);
+      letter-spacing: -0.5px;
+      text-align: right;
+    }
+
+    .live-time small {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    #dateLabel {
+      font-size: 0.7rem;
+      margin-top: 3px;
+    }
+
+    /* ── Layout ── */
+    .main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+    }
+
+    .card-title .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .card-count {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      font-weight: 400;
+    }
+
+    /* ── Articles ── */
+    .article-list { list-style: none; }
+
+    .article-item {
+      display: flex;
+      gap: 14px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .article-item:last-child { border-bottom: none; }
+
+    .article-item:hover { background: var(--surface-2); }
+
+    .article-meta-col { flex: 1; min-width: 0; }
+
+    .article-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .tag-ai { background: var(--blue-soft); color: var(--blue); }
+    .tag-product { background: var(--green-soft); color: var(--green); }
+    .tag-design { background: #F3ECFB; color: #6B3FA0; }
+    .tag-startup { background: var(--accent-soft); color: var(--accent); }
+    .tag-content { background: #FEF3F2; color: #C0473A; }
+
+    .article-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .article-byline {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+    }
+
+    .article-byline strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .article-read-time {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+      padding-top: 2px;
+    }
+
+    /* ── News ── */
+    .news-list { list-style: none; }
+
+    .news-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .news-item:last-child { border-bottom: none; }
+    .news-item:hover { background: var(--surface-2); }
+
+    .news-num {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      padding-top: 3px;
+      min-width: 16px;
+    }
+
+    .news-body { flex: 1; }
+
+    .news-headline {
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.45;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+
+    .news-source {
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+
+    .news-source strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ── Calendar ── */
+    .cal-day-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+      padding: 12px 20px 6px;
+    }
+
+    .cal-day-label:first-child { padding-top: 14px; }
+
+    .cal-event-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding: 9px 20px 9px 20px;
+      border-left: 2px solid transparent;
+      transition: background 0.15s, border-color 0.15s;
+      position: relative;
+    }
+
+    .cal-event-item:hover {
+      background: var(--surface-2);
+      border-left-color: #2E8A9E;
+    }
+
+    .cal-event-time {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      min-width: 62px;
+      flex-shrink: 0;
+    }
+
+    .cal-event-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cal-event-duration {
+      font-size: 0.73rem;
+      color: var(--text-tertiary);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .cal-all-day .cal-event-time {
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    .cal-day-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 6px 20px;
+    }
+
+    .cal-empty-day {
+      padding: 4px 20px 14px;
+      font-size: 0.82rem;
+      color: var(--text-tertiary);
+    }
+
+    .cal-skeleton {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cal-skeleton:last-child { border-bottom: none; }
+
+    /* ── Gmail ── */
+    .gmail-connect-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 28px 20px;
+    }
+
+    .gmail-connect-wrap p {
+      font-size: 0.82rem;
+      color: var(--text-tertiary);
+      text-align: center;
+      max-width: 260px;
+      line-height: 1.5;
+    }
+
+    .gmail-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      padding: 9px 18px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      font-family: inherit;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .gmail-btn:hover {
+      border-color: #EA4335;
+      box-shadow: 0 0 0 3px rgba(234,67,53,0.08);
+    }
+
+    .gmail-btn svg { flex-shrink: 0; }
+
+    .gmail-disconnect-btn {
+      background: none;
+      border: none;
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      font-family: inherit;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .gmail-disconnect-btn:hover { color: var(--red); }
+
+    .email-list { list-style: none; }
+
+    .email-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+    }
+
+    .email-item:last-child { border-bottom: none; }
+    .email-item:hover { background: var(--surface-2); }
+
+    .email-unread-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #EA4335;
+      flex-shrink: 0;
+      margin-top: 5px;
+      opacity: 0;
+    }
+
+    .email-unread-dot.visible { opacity: 1; }
+
+    .email-body { flex: 1; min-width: 0; }
+
+    .email-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 3px;
+    }
+
+    .email-sender {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .email-time {
+      font-size: 0.72rem;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .email-subject {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.4;
+    }
+
+    .gmail-empty {
+      padding: 28px 20px;
+      font-size: 0.83rem;
+      color: var(--text-tertiary);
+      text-align: center;
+    }
+
+    .gmail-error {
+      padding: 20px;
+      font-size: 0.82rem;
+      color: var(--red);
+      text-align: center;
+    }
+
+    /* Reuse skeleton styles for gmail */
+    .email-skeleton {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .email-skeleton:last-child { border-bottom: none; }
+    .skel-dot  { width: 7px; height: 7px; border-radius: 50%; flex-shrink:0; margin-top:5px; }
+    .skel-s1   { width: 38%; height: 12px; margin-bottom: 6px; }
+    .skel-s2   { width: 75%; height: 11px; }
+
+    /* ── Bills ── */
+    .bill-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .bill-item:last-child { border-bottom: none; }
+
+    .bill-coach {
+      flex: 1;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.45;
+    }
+
+    .bill-coach.urgent  { color: var(--red); }
+    .bill-coach.soon    { color: var(--accent); }
+    .bill-coach.relaxed { color: var(--text-secondary); }
+
+    .bill-amount {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .bill-paid-btn {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .bill-paid-btn:hover { border-color: var(--green); }
+
+    /* Manage view */
+    .manage-header {
+      padding: 14px 20px 10px;
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .manage-bill-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .manage-bill-row:last-of-type { border-bottom: none; }
+
+    .manage-bill-name {
+      font-size: 0.87rem;
+      font-weight: 500;
+      flex: 1;
+      color: var(--text-primary);
+    }
+
+    .manage-bill-meta {
+      font-size: 0.78rem;
+      color: var(--text-tertiary);
+      white-space: nowrap;
+    }
+
+    .manage-bill-meta strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .manage-delete-btn {
+      background: none;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .manage-delete-btn:hover { color: var(--red); }
+
+    .add-bill-form {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-2);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .add-bill-form .form-row { display: flex; gap: 8px; }
+
+    .form-input {
+      flex: 1;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-family: inherit;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .form-input:focus { border-color: var(--accent); }
+
+    .form-submit {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 8px 18px;
+      font-size: 0.82rem;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      white-space: nowrap;
+    }
+
+    .form-submit:hover { opacity: 0.88; }
+
+    .bills-manage-btn {
+      background: none;
+      border: none;
+      font-size: 0.72rem;
+      font-family: inherit;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+    }
+
+    .bills-manage-btn:hover { color: var(--text-secondary); }
+
+    .bills-empty {
+      padding: 24px 20px;
+      font-size: 0.84rem;
+      color: var(--text-tertiary);
+      text-align: center;
+    }
+
+    .bills-empty a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* ── Responsive ── */
+    @media (min-width: 640px) {
+      .header { padding: 36px 24px 0; margin-bottom: 32px; }
+      .main { padding: 0 24px; gap: 24px; }
+      .greeting { font-size: 2rem; }
+      .live-time { font-size: 1.6rem; }
+    }
+
+    /* ── Subtle divider label ── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-tertiary);
+      padding: 0 4px;
+      margin-top: 4px;
+    }
+
+    /* ── Skeleton loader ── */
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position:  600px 0; }
+    }
+
+    .skel {
+      border-radius: 4px;
+      background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%);
+      background-size: 600px 100%;
+      animation: shimmer 1.4s infinite linear;
+    }
+
+    .article-skeleton {
+      display: flex;
+      gap: 14px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-skeleton:last-child { border-bottom: none; }
+
+    .skel-tag  { width: 52px;  height: 18px; margin-bottom: 8px; }
+    .skel-t1   { width: 92%;   height: 14px; margin-bottom: 6px; }
+    .skel-t2   { width: 68%;   height: 14px; margin-bottom: 10px; }
+    .skel-by   { width: 44%;   height: 11px; }
+    .skel-rt   { width: 34px;  height: 11px; margin-top: 2px; flex-shrink: 0; }
+
+    /* ── Article error state ── */
+    .article-error {
+      padding: 20px;
+      font-size: 0.83rem;
+      color: var(--text-tertiary);
+      text-align: center;
+    }
+
+    /* ── Pinned badge ── */
+    .article-pinned {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-tertiary);
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+  <div class="header-top">
+    <div class="greeting">
+      Good morning, Vetha.
+      <span>Here's what's worth your attention today.</span>
+    </div>
+    <div class="live-time">
+      <span id="clockHours">--:--</span>
+      <small id="clockAmPm">--</small>
+      <small id="dateLabel"></small>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- ── Reading ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dot" style="background:#3A5FA8"></span>
+        Read these today.
+      </div>
+      <span class="card-count" id="articleCount"></span>
+    </div>
+    <ul class="article-list" id="articleList"></ul>
+  </div>
+
+  <!-- ── Calendar ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dot" style="background:#2E8A9E"></span>
+        Your Day.
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="card-count" id="calCount"></span>
+        <button class="gmail-disconnect-btn" id="calDisconnect" style="display:none">disconnect</button>
+      </div>
+    </div>
+    <div id="calBody"></div>
+  </div>
+
+  <!-- ── News ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dot" style="background:#C17F3B"></span>
+        Worth knowing.
+      </div>
+      <span class="card-count">today</span>
+    </div>
+    <ul class="news-list" id="newsList"></ul>
+  </div>
+
+  <!-- ── Gmail ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dot" style="background:#EA4335"></span>
+        Needs your attention.
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="card-count" id="gmailCount"></span>
+        <button class="gmail-disconnect-btn" id="gmailDisconnect" style="display:none">disconnect</button>
+      </div>
+    </div>
+    <div id="gmailBody"></div>
+  </div>
+
+  <!-- ── Bills ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <span class="dot" style="background:#3D7A5E"></span>
+        On your plate.
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="card-count" id="billCount"></span>
+        <button class="bills-manage-btn" id="billsManageToggle">manage</button>
+      </div>
+    </div>
+    <div id="billsBody"></div>
+  </div>
+
+</main>
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+  // ── Clock & Date ──
+  function updateClock() {
+    const now = new Date();
+    const h = now.getHours();
+    const m = now.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = h % 12 || 12;
+    document.getElementById('clockHours').textContent =
+      `${h12}:${String(m).padStart(2, '0')}`;
+    document.getElementById('clockAmPm').textContent = ampm;
+
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun',
+      'Jul','Aug','Sep','Oct','Nov','Dec'];
+    document.getElementById('dateLabel').textContent =
+      `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+  }
+  updateClock();
+  setInterval(updateClock, 10000);
+
+  // ── Articles — live RSS via corsproxy.io + DOMParser ──
+
+  const RSS_FEEDS = [
+    {
+      rssUrl: 'https://www.lennysnewsletter.com/feed',
+      source: "Lenny's Newsletter",
+      defaultTag: 'Product',
+      defaultTagClass: 'tag-product',
+    },
+    {
+      rssUrl: 'https://www.the-ai-corner.com/feed',
+      source: 'The AI Corner',
+      defaultTag: 'AI',
+      defaultTagClass: 'tag-ai',
+    },
+    {
+      rssUrl: 'https://techcrunch.com/category/artificial-intelligence/feed/',
+      source: 'TechCrunch',
+      defaultTag: 'AI',
+      defaultTagClass: 'tag-ai',
+    },
+  ];
+
+  function detectTag(title = '', desc = '') {
+    const t = (title + ' ' + desc).toLowerCase();
+    if (/\bai\b|llm|gpt|openai|anthropic|claude|gemini|artificial intelligence|machine learning/.test(t))
+      return { tag: 'AI', tagClass: 'tag-ai' };
+    if (/india|zepto|swiggy|flipkart|meesho|zomato|rupee|sebi|startup india/.test(t))
+      return { tag: 'India', tagClass: 'tag-startup' };
+    if (/design|ux|ui|interface|figma|typography|visual/.test(t))
+      return { tag: 'Design', tagClass: 'tag-design' };
+    if (/content|creator|newsletter|writing|media|social/.test(t))
+      return { tag: 'Content', tagClass: 'tag-content' };
+    return null; // use feed default
+  }
+
+  function getText(el, selector) {
+    const node = el.querySelector(selector);
+    if (!node) return '';
+    return (node.textContent || node.innerHTML || '').replace(/<[^>]*>/g, '').replace(/&[a-z#0-9]+;/gi, ' ').trim();
+  }
+
+  function estimateReadTime(raw = '') {
+    const words = raw.replace(/<[^>]*>/g, ' ').trim().split(/\s+/).length;
+    return Math.max(2, Math.ceil(words / 220)) + ' min';
+  }
+
+  async function fetchFeed({ rssUrl, source, defaultTag, defaultTagClass }) {
+    const proxied = `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 9000);
+    try {
+      const res = await fetch(proxied, { signal: controller.signal });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const xml = await res.text();
+      const doc = new DOMParser().parseFromString(xml, 'text/xml');
+      const items = Array.from(doc.querySelectorAll('item, entry'));
+      if (!items.length) throw new Error('No items in feed');
+
+      const item = items[0];
+      const title = getText(item, 'title');
+      const desc  = getText(item, 'description, summary');
+      const content = getText(item, 'content\\:encoded, content');
+      const link  = item.querySelector('link')?.textContent?.trim()
+                 || item.querySelector('link')?.getAttribute('href') || '#';
+      const rawAuthor = getText(item, 'author, dc\\:creator');
+      // Some feeds put the full email or repeat the publication name — strip both
+      const author = (rawAuthor && rawAuthor !== source && !/noreply|@/.test(rawAuthor))
+        ? rawAuthor : source;
+      const detected = detectTag(title, desc);
+      const { tag, tagClass } = detected || { tag: defaultTag, tagClass: defaultTagClass };
+
+      return { tag, tagClass, title, source, author, url: link,
+               readTime: estimateReadTime(content || desc) };
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  function renderArticleSkeleton() {
+    document.getElementById('articleList').innerHTML = [0,1,2].map(() => `
+      <li class="article-skeleton">
+        <div class="article-meta-col">
+          <div class="skel skel-tag"></div>
+          <div class="skel skel-t1"></div>
+          <div class="skel skel-t2"></div>
+          <div class="skel skel-by"></div>
+        </div>
+        <div class="skel skel-rt"></div>
+      </li>`).join('');
+  }
+
+  function renderArticles(articles) {
+    const articleList = document.getElementById('articleList');
+    articleList.innerHTML = '';
+    articles.forEach(a => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a class="article-item" href="${a.url}" target="_blank" rel="noopener">
+          <div class="article-meta-col">
+            <span class="article-tag ${a.tagClass}">${a.tag}</span>
+            <div class="article-title">${a.title}</div>
+            <div class="article-byline">${a.author !== a.source ? `<strong>${a.author}</strong> · ` : ''}${a.source}</div>
+          </div>
+          <div class="article-read-time">${a.readTime}</div>
+        </a>`;
+      articleList.appendChild(li);
+    });
+    const countEl = document.getElementById('articleCount');
+    if (countEl) countEl.textContent = `${articles.length} today`;
+  }
+
+  async function loadArticles() {
+    renderArticleSkeleton();
+    const results = await Promise.allSettled(RSS_FEEDS.map(fetchFeed));
+    const articles = results
+      .filter(r => r.status === 'fulfilled')
+      .map(r => r.value)
+      .slice(0, 3);
+
+    if (!articles.length) {
+      document.getElementById('articleList').innerHTML =
+        '<li class="article-error">Nothing loaded. Try a refresh.</li>';
+      return;
+    }
+    renderArticles(articles);
+  }
+
+  loadArticles();
+
+  // ── News ──
+  const news = [
+    {
+      headline: 'Anthropic raises $3.5B at $61.5B valuation as AI infrastructure arms race intensifies',
+      source: 'TechCrunch',
+      category: 'AI',
+    },
+    {
+      headline: 'SEBI clears new framework for startup listings on NSE Emerge — founders call it a game changer',
+      source: 'Mint',
+      category: 'India Tech',
+    },
+    {
+      headline: 'OpenAI\'s new o3 model beats human experts on a new benchmark for long-horizon reasoning',
+      source: 'The Verge',
+      category: 'AI',
+    },
+    {
+      headline: 'India overtakes Germany as world\'s third-largest startup ecosystem by deal count in Q1 2026',
+      source: 'Economic Times',
+      category: 'Startups',
+    },
+  ];
+
+  const newsList = document.getElementById('newsList');
+  news.forEach((n, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <li class="news-item" onclick="">
+        <span class="news-num">${i + 1}</span>
+        <div class="news-body">
+          <div class="news-headline">${n.headline}</div>
+          <div class="news-source"><strong>${n.source}</strong> · ${n.category}</div>
+        </div>
+      </li>`;
+    newsList.appendChild(li);
+  });
+
+  // ── Gmail ──────────────────────────────────────────────────────────────────
+  //
+  // STEP 1 ▸ Paste your Google OAuth Client ID here:
+  const GMAIL_CLIENT_ID = '777980389158-1gku2vs5842gf0k2l5aq0m8gbdipa52k.apps.googleusercontent.com';
+  //
+  // STEP 2 ▸ Priority senders — partial names, domains, or full emails.
+  //          Gmail's from: search matches anywhere in the sender field.
+  const PRIORITY_SENDERS = [
+    'quorum',        // Quorum Club and any quorum* addresses
+    'wework',        // WeWork event/space emails
+    // Add more event spaces as you come across them, e.g.:
+    // '91springboard', 'bhive', 'innov8', 'awfis',
+  ];
+  //
+  // STEP 3 ▸ Subject keywords for podcast collabs & cold outreach replies:
+  const PRIORITY_KEYWORDS = [
+    'collaboration', 'collab', 'partnership',
+    'podcast', 'interview', 'guest', 'feature',
+    'sponsorship', 'sponsor',
+    'interested', 'action needed', 'review', 'decision',
+  ];
+  //
+  // STEP 4 ▸ Gmail labels you've already applied (e.g. your "urgent" label).
+  //          These are matched exactly — make sure the label name matches Gmail.
+  const PRIORITY_LABELS = ['urgent'];
+  //
+  // ──────────────────────────────────────────────────────────────────────────
+
+  const GMAIL_SCOPE   = 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/calendar.readonly';
+  const TOKEN_KEY     = 'gmail_access_token';
+  const TOKEN_EXP_KEY = 'gmail_token_expiry';
+
+  let gmailTokenClient = null;
+
+  // ── Helpers ──
+
+  function savedToken() {
+    const t = sessionStorage.getItem(TOKEN_KEY);
+    const e = parseInt(sessionStorage.getItem(TOKEN_EXP_KEY) || '0');
+    return t && Date.now() < e - 60000 ? t : null;
+  }
+
+  function saveToken(token, expiresIn) {
+    sessionStorage.setItem(TOKEN_KEY, token);
+    sessionStorage.setItem(TOKEN_EXP_KEY, String(Date.now() + expiresIn * 1000));
+  }
+
+  function clearToken() {
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(TOKEN_EXP_KEY);
+  }
+
+  function timeAgo(dateStr) {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const m = Math.floor(diff / 60000);
+    if (m < 1)  return 'just now';
+    if (m < 60) return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h ago`;
+    return `${Math.floor(h / 24)}d ago`;
+  }
+
+  function headerVal(headers, name) {
+    return headers.find(h => h.name.toLowerCase() === name.toLowerCase())?.value || '';
+  }
+
+  function parseSenderName(from) {
+    // "Display Name <email@example.com>" → "Display Name"
+    const match = from.match(/^([^<]+)</);
+    return match ? match[1].trim().replace(/^"|"$/g, '') : from.split('@')[0];
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Render states ──
+
+  function setGmailCount(text) {
+    document.getElementById('gmailCount').textContent = text;
+  }
+
+  function showGmailSkeleton() {
+    document.getElementById('gmailBody').innerHTML = [0,1,2].map(() => `
+      <div class="email-skeleton">
+        <div class="skel skel-dot"></div>
+        <div style="flex:1">
+          <div class="skel skel-s1"></div>
+          <div class="skel skel-s2"></div>
+        </div>
+      </div>`).join('');
+    setGmailCount('on it…');
+  }
+
+  function showConnectButton() {
+    document.getElementById('gmailBody').innerHTML = `
+      <div class="gmail-connect-wrap">
+        <button class="gmail-btn" id="gmailConnectBtn">
+          <svg width="16" height="16" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 5C13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19S34.5 5 24 5z" opacity=".1"/>
+            <path fill="#EA4335" d="M6.3 14.7l17.7 11.6 17.7-11.6C39.4 11.1 32.1 8 24 8S8.6 11.1 6.3 14.7z"/>
+            <path fill="#34A853" d="M42 24c0 9.9-8.1 18-18 18-4.9 0-9.3-1.9-12.6-5L6 37.5V24h36z"/>
+            <path fill="#4285F4" d="M6 24v13.5L11.4 37C8.1 33.7 6 29.1 6 24z"/>
+            <path fill="#FBBC05" d="M42 24c0-5.1-2.1-9.7-5.4-13l-5.4 4.2C33.5 17.2 34 20.5 34 24h8z"/>
+          </svg>
+          Connect Gmail
+        </button>
+        <p>Filtered to what actually needs you.</p>
+      </div>`;
+    document.getElementById('gmailConnectBtn').addEventListener('click', requestGmailToken);
+    document.getElementById('gmailDisconnect').style.display = 'none';
+    setGmailCount('');
+  }
+
+  function showEmails(emails) {
+    const body = document.getElementById('gmailBody');
+    if (!emails.length) {
+      body.innerHTML = `<div class="gmail-empty">You're clear here. Nice.</div>`;
+      setGmailCount('all clear');
+      return;
+    }
+    const ul = document.createElement('ul');
+    ul.className = 'email-list';
+    emails.forEach(e => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <a class="email-item" href="https://mail.google.com/mail/u/0/#inbox/${e.id}"
+           target="_blank" rel="noopener">
+          <div class="email-unread-dot ${e.unread ? 'visible' : ''}"></div>
+          <div class="email-body">
+            <div class="email-top">
+              <span class="email-sender">${escHtml(e.sender)}</span>
+              <span class="email-time">${escHtml(e.time)}</span>
+            </div>
+            <div class="email-subject">${escHtml(e.subject)}</div>
+          </div>
+        </a>`;
+      ul.appendChild(li);
+    });
+    body.innerHTML = '';
+    body.appendChild(ul);
+    setGmailCount(`${emails.length} to action`);
+    document.getElementById('gmailDisconnect').style.display = '';
+  }
+
+  function showGmailError(msg) {
+    document.getElementById('gmailBody').innerHTML =
+      `<div class="gmail-error">${escHtml(msg)}</div>`;
+    setGmailCount('');
+  }
+
+  // ── API calls ──
+
+  async function fetchPriorityEmails(token) {
+    // Build Gmail search query
+    const senderClauses  = PRIORITY_SENDERS.map(s => `from:${s}`);
+    const subjectClauses = PRIORITY_KEYWORDS.map(k => `subject:"${k}"`);
+    const labelClauses   = PRIORITY_LABELS.map(l => `label:${l}`);
+    const clauses = [...labelClauses, ...senderClauses, ...subjectClauses];
+    const inner = clauses.length ? `(${clauses.join(' OR ')})` : '';
+    const query = `newer_than:12h ${inner}`.trim();
+
+    const listUrl = `https://gmail.googleapis.com/gmail/v1/users/me/messages`
+      + `?maxResults=3&q=${encodeURIComponent(query)}`;
+
+    const listRes = await fetch(listUrl, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (listRes.status === 401) throw new Error('TOKEN_EXPIRED');
+    if (!listRes.ok) throw new Error(`Gmail API error ${listRes.status}`);
+
+    const listData = await listRes.json();
+    const msgList = listData.messages || [];
+
+    // Fetch each message's headers in parallel
+    const details = await Promise.all(msgList.map(async ({ id }) => {
+      const res = await fetch(
+        `https://gmail.googleapis.com/gmail/v1/users/me/messages/${id}?format=metadata`
+        + `&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (!res.ok) return null;
+      return res.json();
+    }));
+
+    return details.filter(Boolean).map(msg => {
+      const h = msg.payload.headers;
+      const from    = headerVal(h, 'From');
+      const subject = headerVal(h, 'Subject') || '(no subject)';
+      const date    = headerVal(h, 'Date');
+      return {
+        id:      msg.id,
+        sender:  parseSenderName(from),
+        subject,
+        time:    timeAgo(date),
+        unread:  (msg.labelIds || []).includes('UNREAD'),
+      };
+    });
+  }
+
+  // ── OAuth flow ──
+
+  function requestGmailToken(forceConsent = false) {
+    if (!gmailTokenClient) {
+      showGmailError('Google Identity Services not loaded yet. Try refreshing.');
+      return;
+    }
+    gmailTokenClient.requestAccessToken({ prompt: forceConsent ? 'consent' : '' });
+  }
+
+  async function loadGmail(token) {
+    showGmailSkeleton();
+    try {
+      const emails = await fetchPriorityEmails(token);
+      showEmails(emails);
+    } catch (err) {
+      if (err.message === 'TOKEN_EXPIRED') {
+        clearToken();
+        showConnectButton();
+      } else {
+        showGmailError('Couldn\'t fetch emails right now. Tap to try again.');
+        document.getElementById('gmailBody')
+          .querySelector('div').style.cursor = 'pointer';
+        document.getElementById('gmailBody')
+          .querySelector('div').addEventListener('click', () => loadGmail(token));
+      }
+    }
+  }
+
+  // ── Calendar ────────────────────────────────────────────────────────────
+
+  function formatCalTime(dateTimeStr) {
+    if (!dateTimeStr) return 'All day';
+    const d = new Date(dateTimeStr);
+    const h = d.getHours(), m = d.getMinutes();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = h % 12 || 12;
+    return `${h12}${m ? ':' + String(m).padStart(2, '0') : ''} ${ampm}`;
+  }
+
+  function formatDuration(startStr, endStr) {
+    if (!startStr || !endStr) return '';
+    const mins = Math.round((new Date(endStr) - new Date(startStr)) / 60000);
+    if (mins <= 0) return '';
+    if (mins < 60) return `${mins}m`;
+    const h = Math.floor(mins / 60), m = mins % 60;
+    return m ? `${h}h ${m}m` : `${h}h`;
+  }
+
+  function setCalCount(text) {
+    document.getElementById('calCount').textContent = text;
+  }
+
+  function showCalSkeleton() {
+    document.getElementById('calBody').innerHTML = [0,1,2].map(() => `
+      <div class="cal-skeleton">
+        <div class="skel" style="width:55px;height:11px;flex-shrink:0"></div>
+        <div class="skel" style="flex:1;height:13px"></div>
+        <div class="skel" style="width:26px;height:11px;flex-shrink:0"></div>
+      </div>`).join('');
+    setCalCount('on it…');
+  }
+
+  function showCalConnectState() {
+    document.getElementById('calBody').innerHTML = `
+      <div class="gmail-connect-wrap">
+        <button class="gmail-btn" id="calConnectBtn">
+          <svg width="16" height="16" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 5C13.5 5 5 13.5 5 24s8.5 19 19 19 19-8.5 19-19S34.5 5 24 5z" opacity=".1"/>
+            <path fill="#EA4335" d="M6.3 14.7l17.7 11.6 17.7-11.6C39.4 11.1 32.1 8 24 8S8.6 11.1 6.3 14.7z"/>
+            <path fill="#34A853" d="M42 24c0 9.9-8.1 18-18 18-4.9 0-9.3-1.9-12.6-5L6 37.5V24h36z"/>
+            <path fill="#4285F4" d="M6 24v13.5L11.4 37C8.1 33.7 6 29.1 6 24z"/>
+            <path fill="#FBBC05" d="M42 24c0-5.1-2.1-9.7-5.4-13l-5.4 4.2C33.5 17.2 34 20.5 34 24h8z"/>
+          </svg>
+          Connect Google
+        </button>
+        <p>Pulls from your primary calendar.</p>
+      </div>`;
+    document.getElementById('calConnectBtn').addEventListener('click', () => requestGmailToken(false));
+    document.getElementById('calDisconnect').style.display = 'none';
+    setCalCount('');
+  }
+
+  function renderCalendar(events) {
+    const calBody = document.getElementById('calBody');
+
+    const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+    const tomorrowStart = new Date(todayStart); tomorrowStart.setDate(todayStart.getDate() + 1);
+    const tomorrowEnd   = new Date(todayStart); tomorrowEnd.setDate(todayStart.getDate() + 2);
+
+    const bucket = { today: [], tomorrow: [] };
+    events.forEach(e => {
+      const start = new Date(e.start.dateTime || e.start.date);
+      if (start >= todayStart && start < tomorrowStart) bucket.today.push(e);
+      else if (start >= tomorrowStart && start < tomorrowEnd) bucket.tomorrow.push(e);
+    });
+
+    if (!bucket.today.length && !bucket.tomorrow.length) {
+      calBody.innerHTML = `<div class="gmail-empty">Nothing scheduled. Enjoy the space.</div>`;
+      setCalCount('free today');
+      document.getElementById('calDisconnect').style.display = '';
+      return;
+    }
+
+    function renderSection(label, evts) {
+      const header = `<div class="cal-day-label">${label}</div>`;
+      if (!evts.length) {
+        return header + `<div class="cal-empty-day">Nothing scheduled. Enjoy the space.</div>`;
+      }
+      const rows = evts.map(e => {
+        const allDay  = !e.start.dateTime;
+        const time    = allDay ? 'All day' : formatCalTime(e.start.dateTime);
+        const dur     = allDay ? '' : formatDuration(e.start.dateTime, e.end.dateTime);
+        const title   = escHtml(e.summary || 'Untitled event');
+        return `
+          <div class="cal-event-item${allDay ? ' cal-all-day' : ''}">
+            <div class="cal-event-time">${time}</div>
+            <div class="cal-event-title">${title}</div>
+            ${dur ? `<div class="cal-event-duration">${dur}</div>` : ''}
+          </div>`;
+      }).join('');
+      return header + rows;
+    }
+
+    let html = renderSection('Today', bucket.today);
+    html += `<div class="cal-day-divider"></div>`;
+    html += renderSection('Tomorrow', bucket.tomorrow);
+    calBody.innerHTML = html;
+
+    const todayCount = bucket.today.length, tomorrowCount = bucket.tomorrow.length;
+    setCalCount(
+      todayCount && tomorrowCount ? `${todayCount} today · ${tomorrowCount} tomorrow` :
+      todayCount ? `${todayCount} today` : `${tomorrowCount} tomorrow`
+    );
+    document.getElementById('calDisconnect').style.display = '';
+  }
+
+  async function fetchCalendarEvents(token) {
+    const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+    const tomorrowEnd = new Date(todayStart); tomorrowEnd.setDate(todayStart.getDate() + 2);
+
+    const url = 'https://www.googleapis.com/calendar/v3/calendars/primary/events'
+      + `?timeMin=${encodeURIComponent(todayStart.toISOString())}`
+      + `&timeMax=${encodeURIComponent(tomorrowEnd.toISOString())}`
+      + `&singleEvents=true&orderBy=startTime&maxResults=25`;
+
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+    if (res.status === 401) throw new Error('TOKEN_EXPIRED');
+    if (res.status === 403) throw new Error('SCOPE_MISSING');
+    if (!res.ok) throw new Error(`Calendar API ${res.status}`);
+    const data = await res.json();
+    return data.items || [];
+  }
+
+  async function loadCalendar(token) {
+    showCalSkeleton();
+    try {
+      const events = await fetchCalendarEvents(token);
+      renderCalendar(events);
+    } catch (err) {
+      if (err.message === 'TOKEN_EXPIRED' || err.message === 'SCOPE_MISSING') {
+        clearToken();
+        showConnectButton();
+        showCalConnectState();
+      } else {
+        document.getElementById('calBody').innerHTML =
+          `<div class="gmail-error">Couldn't load your calendar. Tap to try again.</div>`;
+        setCalCount('');
+      }
+    }
+  }
+
+  // Disconnect calendar alongside Gmail
+  document.getElementById('calDisconnect').addEventListener('click', () => {
+    clearToken();
+    showConnectButton();
+    showCalConnectState();
+  });
+
+  function initGmail() {
+    if (GMAIL_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+      // Not configured yet — show a placeholder
+      document.getElementById('gmailBody').innerHTML = `
+        <div class="gmail-connect-wrap">
+          <p style="color:var(--accent);font-weight:500">Add your Client ID to enable Gmail</p>
+          <p>Open index.html and set <code style="font-size:0.8em;background:var(--surface-2);padding:2px 5px;border-radius:4px">GMAIL_CLIENT_ID</code> near the Gmail section</p>
+        </div>`;
+      setGmailCount('');
+      return;
+    }
+
+    // Initialise token client once GIS is ready
+    function setup() {
+      gmailTokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: GMAIL_CLIENT_ID,
+        scope: GMAIL_SCOPE,
+        callback: (resp) => {
+          if (resp.error) {
+            showGmailError(`Auth error: ${resp.error}`);
+            document.getElementById('calBody').innerHTML =
+              `<div class="gmail-error">Auth error: ${resp.error}</div>`;
+            return;
+          }
+          saveToken(resp.access_token, resp.expires_in);
+          loadGmail(resp.access_token);
+          loadCalendar(resp.access_token);
+        },
+      });
+
+      // If we already have a valid token from this session, load both sections
+      const existing = savedToken();
+      if (existing) {
+        loadGmail(existing);
+        loadCalendar(existing);
+      } else {
+        showConnectButton();
+        showCalConnectState();
+      }
+    }
+
+    // GIS script is async — wait for it if needed
+    if (typeof google !== 'undefined' && google.accounts) {
+      setup();
+    } else {
+      document.querySelector('script[src*="accounts.google.com"]')
+        .addEventListener('load', setup);
+    }
+  }
+
+  // Disconnect button
+  document.getElementById('gmailDisconnect').addEventListener('click', () => {
+    clearToken();
+    if (gmailTokenClient) {
+      google.accounts.oauth2.revoke(sessionStorage.getItem(TOKEN_KEY) || '', () => {});
+    }
+    showConnectButton();
+  });
+
+  initGmail();
+
+  // ── Bills ─────────────────────────────────────────────────────────────────
+  //
+  // Data lives in localStorage so it persists across sessions.
+  // BILLS_KEY  → array of { id, name, amount, dueDay }
+  // PAID_KEY   → object of { "{id}_{year}_{month}": true } — resets each month naturally
+  //
+  const BILLS_KEY = 'morning_bills';
+  const PAID_KEY  = 'morning_paid';
+
+  function loadBills() {
+    try { return JSON.parse(localStorage.getItem(BILLS_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function saveBills(bills) {
+    localStorage.setItem(BILLS_KEY, JSON.stringify(bills));
+  }
+
+  function loadPaid() {
+    try { return JSON.parse(localStorage.getItem(PAID_KEY)) || {}; }
+    catch { return {}; }
+  }
+
+  function savePaid(paid) {
+    localStorage.setItem(PAID_KEY, JSON.stringify(paid));
+  }
+
+  function paidKey(id) {
+    const now = new Date();
+    return `${id}_${now.getFullYear()}_${now.getMonth()}`;
+  }
+
+  function isPaid(id) { return !!loadPaid()[paidKey(id)]; }
+
+  function markPaid(id) {
+    const paid = loadPaid();
+    paid[paidKey(id)] = true;
+    savePaid(paid);
+  }
+
+  function daySuffix(d) {
+    if (d >= 11 && d <= 13) return `${d}th`;
+    switch (d % 10) {
+      case 1: return `${d}st`; case 2: return `${d}nd`; case 3: return `${d}rd`;
+      default: return `${d}th`;
+    }
+  }
+
+  function daysUntilDue(dueDay) {
+    const now  = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // Try this month first; if already past, roll to next month
+    let due = new Date(now.getFullYear(), now.getMonth(), dueDay);
+    if (due < today) due = new Date(now.getFullYear(), now.getMonth() + 1, dueDay);
+    return Math.round((due - today) / 86400000);
+  }
+
+  function coachCopy(name, days) {
+    if (days === 0) return `${name} is due today. Don't let it slip.`;
+    if (days === 1) return `${name} is due tomorrow. Handle it now.`;
+    if (days === 2) return `${name} due in 2 days. Sort it early.`;
+    if (days <= 4)  return `${name} due in ${days} days. Worth doing today.`;
+    return `${name} due in ${days} days. Keep it on your radar.`;
+  }
+
+  function urgencyClass(days) {
+    if (days === 0) return 'urgent';
+    if (days <= 2)  return 'soon';
+    return 'relaxed';
+  }
+
+  // ── Dashboard view ──
+
+  function renderBillsDashboard() {
+    const body   = document.getElementById('billsBody');
+    const count  = document.getElementById('billCount');
+    const bills  = loadBills();
+    const dueSoon = bills
+      .filter(b => !isPaid(b.id) && daysUntilDue(b.dueDay) <= 7)
+      .sort((a, b) => daysUntilDue(a.dueDay) - daysUntilDue(b.dueDay));
+
+    if (!bills.length) {
+      body.innerHTML = `
+        <div class="bills-empty">
+          No bills set up yet.<br>
+          <a id="emptyAddLink">Add your first one</a> and we'll remind you automatically.
+        </div>`;
+      body.querySelector('#emptyAddLink')?.addEventListener('click', () => {
+        showManageView();
+        document.getElementById('billsManageToggle').textContent = 'done';
+      });
+      count.textContent = '';
+      return;
+    }
+
+    if (!dueSoon.length) {
+      body.innerHTML = `<div class="bills-empty">Nothing due this week. You're ahead.</div>`;
+      count.textContent = 'all clear';
+      return;
+    }
+
+    body.innerHTML = '';
+    dueSoon.forEach(b => {
+      const days = daysUntilDue(b.dueDay);
+      const div  = document.createElement('div');
+      div.className = 'bill-item';
+      div.innerHTML = `
+        <div class="bill-coach ${urgencyClass(days)}">${escHtml(coachCopy(b.name, days))}</div>
+        ${b.amount ? `<div class="bill-amount">${escHtml(b.amount)}</div>` : ''}
+        <button class="bill-paid-btn" data-id="${b.id}" title="Mark as paid">
+          <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+            <path d="M1 4l2.5 2.5L9 1" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+          </svg>
+        </button>`;
+      body.appendChild(div);
+    });
+
+    // Hover feedback on the checkmark SVG
+    body.querySelectorAll('.bill-paid-btn').forEach(btn => {
+      const path = btn.querySelector('path');
+      btn.addEventListener('mouseenter', () => { path.style.opacity = '0.5'; });
+      btn.addEventListener('mouseleave', () => { path.style.opacity = '0'; });
+      btn.addEventListener('click', () => {
+        markPaid(btn.dataset.id);
+        // Fade out then re-render
+        btn.closest('.bill-item').style.transition = 'opacity 0.3s';
+        btn.closest('.bill-item').style.opacity = '0';
+        setTimeout(renderBillsDashboard, 300);
+      });
+    });
+
+    count.textContent = `${dueSoon.length} due soon`;
+  }
+
+  // ── Manage view ──
+
+  function showManageView() {
+    const body  = document.getElementById('billsBody');
+    const bills = loadBills();
+
+    let listHtml = bills.length
+      ? bills.map(b => `
+          <div class="manage-bill-row" data-id="${b.id}">
+            <div class="manage-bill-name">${escHtml(b.name)}</div>
+            <div class="manage-bill-meta">
+              ${b.amount ? `<strong>${escHtml(b.amount)}</strong> · ` : ''}due ${daySuffix(b.dueDay)}
+            </div>
+            <button class="manage-delete-btn" data-id="${b.id}" title="Remove">×</button>
+          </div>`).join('')
+      : `<div class="manage-header">No bills yet. Add one below.</div>`;
+
+    body.innerHTML = `
+      ${listHtml}
+      <div class="add-bill-form" id="addBillForm">
+        <div class="form-row">
+          <input class="form-input" id="newBillName"   placeholder="Bill name  (e.g. Airtel)" style="flex:2" />
+          <input class="form-input" id="newBillAmount" placeholder="Amount  (e.g. ₹999)" style="flex:1.5" />
+          <input class="form-input" id="newBillDay"    placeholder="Due day" type="number"
+                 min="1" max="31" style="flex:0.8;min-width:72px" />
+        </div>
+        <div class="form-row">
+          <button class="form-submit" id="addBillSave">Add bill</button>
+        </div>
+      </div>`;
+
+    // Delete handlers
+    body.querySelectorAll('.manage-delete-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const updated = loadBills().filter(b => b.id !== btn.dataset.id);
+        saveBills(updated);
+        showManageView();
+      });
+    });
+
+    // Add handler
+    document.getElementById('addBillSave').addEventListener('click', () => {
+      const name   = document.getElementById('newBillName').value.trim();
+      const amount = document.getElementById('newBillAmount').value.trim();
+      const day    = parseInt(document.getElementById('newBillDay').value);
+      if (!name || !day || day < 1 || day > 31) return;
+      const bills = loadBills();
+      bills.push({ id: Date.now().toString(), name, amount, dueDay: day });
+      saveBills(bills);
+      showManageView();
+      // Scroll form back into view
+      document.getElementById('addBillForm')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // Enter key on last field
+    document.getElementById('newBillDay').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('addBillSave').click();
+    });
+
+    document.getElementById('billCount').textContent = `${bills.length} bills`;
+  }
+
+  // ── Toggle ──
+
+  let billsManageOpen = false;
+
+  document.getElementById('billsManageToggle').addEventListener('click', () => {
+    billsManageOpen = !billsManageOpen;
+    document.getElementById('billsManageToggle').textContent = billsManageOpen ? 'done' : 'manage';
+    billsManageOpen ? showManageView() : renderBillsDashboard();
+  });
+
+  // Boot
+  renderBillsDashboard();
+</script>
+</body>
+</html>
