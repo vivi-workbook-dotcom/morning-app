@@ -866,7 +866,7 @@
   }
 
   async function fetchFeed({ rssUrl, source, defaultTag, defaultTagClass }) {
-    const proxied = `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`;
+    const proxied = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 9000);
     try {
