@@ -6,29 +6,29 @@
   <title>Morning</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #F7F5F2;
-      --surface: #FFFFFF;
-      --surface-2: #F0EDE9;
-      --border: #E8E4DF;
-      --text-primary: #1A1714;
-      --text-secondary: #6B6560;
-      --text-tertiary: #A09B96;
-      --accent: #C17F3B;
-      --accent-soft: #FDF3E7;
-      --green: #3D7A5E;
-      --green-soft: #EAF4EF;
-      --red: #B94040;
-      --red-soft: #FDEAEA;
-      --blue: #3A5FA8;
-      --blue-soft: #EBF0FB;
-      --radius: 14px;
-      --radius-sm: 8px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --bg:           #F2EAE0;   /* warm cream */
+      --surface:      #FDF8F2;   /* warm white cards */
+      --surface-2:    #EDE5D8;   /* hover / secondary surface */
+      --border:       #E2D8CC;   /* soft warm border */
+      --text-primary: #28190F;   /* deep warm espresso */
+      --text-secondary:#7A6B5E;  /* medium warm brown-grey */
+      --text-tertiary: #B0A396;  /* light warm stone */
+      --accent:       #C47A3A;   /* muted terracotta-amber */
+      --accent-soft:  #F5E8D4;   /* pale amber wash */
+      --green:        #567A62;   /* muted sage */
+      --green-soft:   #E4EEE8;
+      --red:          #B05A48;   /* muted warm red */
+      --red-soft:     #F2E6E3;
+      --blue:         #546E96;   /* muted warm slate-blue */
+      --blue-soft:    #E4EBF5;
+      --radius:       20px;      /* generous, soft corners */
+      --radius-sm:    11px;
+      --shadow:       0 2px 18px rgba(80,45,10,0.07), 0 1px 4px rgba(80,45,10,0.04);
     }
 
     html { font-size: 16px; }
@@ -44,31 +44,49 @@
 
     /* ── Header ── */
     .header {
-      padding: 28px 20px 0;
+      position: relative;
+      padding: 34px 20px 32px;
       max-width: 720px;
-      margin: 0 auto 28px;
+      margin: 0 auto 20px;
+      overflow: hidden;
+    }
+
+    /* Morning illustration — atmospheric, behind content */
+    .header-art {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      user-select: none;
     }
 
     .header-top {
+      position: relative;   /* sits above the illustration */
+      z-index: 1;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
     }
 
     .greeting {
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: -0.5px;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      letter-spacing: -0.2px;
       line-height: 1.2;
+      color: var(--text-primary);
     }
 
     .greeting span {
       display: block;
+      font-family: 'Inter', -apple-system, sans-serif;
       font-size: 0.875rem;
       font-weight: 400;
       color: var(--text-secondary);
-      margin-top: 4px;
+      margin-top: 6px;
       letter-spacing: 0;
+      line-height: 1.5;
     }
 
     .live-time {
@@ -77,6 +95,7 @@
       color: var(--text-secondary);
       letter-spacing: -0.5px;
       text-align: right;
+      font-family: 'Inter', sans-serif;
     }
 
     .live-time small {
@@ -173,11 +192,11 @@
       margin-bottom: 6px;
     }
 
-    .tag-ai { background: var(--blue-soft); color: var(--blue); }
-    .tag-product { background: var(--green-soft); color: var(--green); }
-    .tag-design { background: #F3ECFB; color: #6B3FA0; }
+    .tag-ai      { background: var(--blue-soft);   color: var(--blue); }
+    .tag-product { background: var(--green-soft);  color: var(--green); }
+    .tag-design  { background: #EDE8F5;            color: #6A5090; }
     .tag-startup { background: var(--accent-soft); color: var(--accent); }
-    .tag-content { background: #FEF3F2; color: #C0473A; }
+    .tag-content { background: #F5E8E4;            color: #A05040; }
 
     .article-title {
       font-size: 0.95rem;
@@ -641,9 +660,9 @@
 
     /* ── Responsive ── */
     @media (min-width: 640px) {
-      .header { padding: 36px 24px 0; margin-bottom: 32px; }
-      .main { padding: 0 24px; gap: 24px; }
-      .greeting { font-size: 2rem; }
+      .header { padding: 44px 28px 38px; margin-bottom: 24px; }
+      .main { padding: 0 28px; gap: 22px; }
+      .greeting { font-size: 2.1rem; }
       .live-time { font-size: 1.6rem; }
     }
 
@@ -710,6 +729,41 @@
 
 <!-- ── Header ── -->
 <header class="header">
+
+  <!-- Soft morning atmosphere — flat, muted, Headspace-style -->
+  <svg class="header-art" viewBox="0 0 760 180" preserveAspectRatio="xMidYMid slice"
+       fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+    <!-- Sun — soft warm glow, outermost ring first -->
+    <circle cx="680" cy="108" r="140" fill="#F0C898" opacity="0.10"/>
+    <circle cx="680" cy="108" r="96"  fill="#EDBA7A" opacity="0.16"/>
+    <circle cx="680" cy="108" r="60"  fill="#E8A85C" opacity="0.22"/>
+    <circle cx="680" cy="108" r="36"  fill="#E09848" opacity="0.30"/>
+
+    <!-- Thin horizon line -->
+    <line x1="0" y1="152" x2="760" y2="152"
+          stroke="#C8AE90" stroke-width="0.8" opacity="0.35"/>
+
+    <!-- Ground — gentle rolling silhouette -->
+    <path d="M0 162 Q140 146 310 156 Q460 166 620 150 Q695 143 760 148 L760 180 L0 180Z"
+          fill="#CDBDA8" opacity="0.18"/>
+
+    <!-- Cloud cluster left — overlapping ellipses -->
+    <ellipse cx="78"  cy="78"  rx="72" ry="22" fill="#FAF3E8" opacity="0.55"/>
+    <ellipse cx="48"  cy="86"  rx="46" ry="17" fill="#FAF3E8" opacity="0.48"/>
+    <ellipse cx="110" cy="75"  rx="52" ry="19" fill="#FAF3E8" opacity="0.52"/>
+    <ellipse cx="78"  cy="94"  rx="36" ry="12" fill="#FAF3E8" opacity="0.38"/>
+
+    <!-- Cloud cluster mid — smaller, higher, more distant -->
+    <ellipse cx="330" cy="46"  rx="58" ry="17" fill="#FAF3E8" opacity="0.40"/>
+    <ellipse cx="300" cy="52"  rx="38" ry="13" fill="#FAF3E8" opacity="0.35"/>
+    <ellipse cx="362" cy="48"  rx="42" ry="15" fill="#FAF3E8" opacity="0.38"/>
+
+    <!-- Tiny wisp — far right, near sun, very faint -->
+    <ellipse cx="530" cy="64"  rx="34" ry="10" fill="#FAF3E8" opacity="0.22"/>
+    <ellipse cx="555" cy="60"  rx="22" ry="8"  fill="#FAF3E8" opacity="0.18"/>
+  </svg>
+
   <div class="header-top">
     <div class="greeting">
       Good morning, Vetha.
@@ -729,7 +783,7 @@
   <div class="card">
     <div class="card-header">
       <div class="card-title">
-        <span class="dot" style="background:#3A5FA8"></span>
+        <span class="dot" style="background:#546E96"></span>
         Read these today.
       </div>
       <span class="card-count" id="articleCount"></span>
@@ -741,7 +795,7 @@
   <div class="card">
     <div class="card-header">
       <div class="card-title">
-        <span class="dot" style="background:#2E8A9E"></span>
+        <span class="dot" style="background:#4A8090"></span>
         Your Day.
       </div>
       <div style="display:flex;align-items:center;gap:10px">
@@ -756,7 +810,7 @@
   <div class="card">
     <div class="card-header">
       <div class="card-title">
-        <span class="dot" style="background:#C17F3B"></span>
+        <span class="dot" style="background:#C47A3A"></span>
         Worth knowing.
       </div>
       <span class="card-count">today</span>
@@ -768,7 +822,7 @@
   <div class="card">
     <div class="card-header">
       <div class="card-title">
-        <span class="dot" style="background:#EA4335"></span>
+        <span class="dot" style="background:#B05A48"></span>
         Needs your attention.
       </div>
       <div style="display:flex;align-items:center;gap:10px">
@@ -783,7 +837,7 @@
   <div class="card">
     <div class="card-header">
       <div class="card-title">
-        <span class="dot" style="background:#3D7A5E"></span>
+        <span class="dot" style="background:#567A62"></span>
         On your plate.
       </div>
       <div style="display:flex;align-items:center;gap:10px">
